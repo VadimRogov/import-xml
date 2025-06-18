@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/kirilwgb_oc1?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - IMPORT_XML_API_USERNAME=${IMPORT_XML_API_USERNAME}
+      - IMPORT_XML_API_PASSWORD=${IMPORT_XML_API_PASSWORD}
+    volumes:
+      - ./logs:/app/logs
+      - ./import:/root/import-xml/import
+    network_mode: "host"  # Используем сеть хоста для доступа к локальной MySQL
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

@@ -1,0 +1,108 @@
+spring:
+  application:
+    name: import-xml
+  datasource:
+    url: jdbc:mysql://localhost:3306/kirilwgb_oc1?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+        batch_versioned_data: true
+        connection:
+          characterEncoding: UTF-8
+          useUnicode: true
+  messages:
+    encoding: UTF-8
+    locale: ru_RU
+    basename: messages
+    fallback-to-system-locale: false
+    cache-duration: 3600
+    use-code-as-default-message: false
+    always-use-message-format: false
+    default-encoding: UTF-8
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+import-xml:
+  api:
+    base-url: ${IMPORT-XML_API_URL:https://api2.gifts.ru}
+    username: ${IMPORT-XML_API_USERNAME}
+    password: ${IMPORT-XML_API_PASSWORD}
+    site-url: http://kirilwgb.beget.tech
+    ip: ${IMPORT-XML_IP}
+  import:
+    directory: ${user.home}/import-xml/import
+    rate-limit:
+      delay: 1000
+    files:
+      product: product.xml
+      stock: stock.xml
+      tree: tree.xml
+      filters: filters.xml
+      complects: complects.xml
+  xml-download:
+    temp-dir: ./temp/xml
+    rate-limit: 5
+    retry-attempts: 3
+    retry-delay: 5
+  sync:
+    cron: "0 0 */4 * * *"
+
+opencart:
+  base-url: ${OPENCART_API_URL:http://kirilwgb.beget.tech}
+  api-key: ${OPENCART_API_KEY:your-api-key}
+  username: ${OPENCART_USERNAME:admin}
+  password: ${OPENCART_PASSWORD:admin}
+  sync:
+    batch-size: 100
+    retry-attempts: 3
+    retry-delay: 5000
+    cron: "0 0 */4 * * *"  # Каждые 4 часа
+
+logging:
+  level:
+    root: INFO
+    com.project111: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  file:
+    name: logs/application.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  charset:
+    console: UTF-8
+    file: UTF-8
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+http:
+  client:
+    max-connections: 5
+    connection-timeout: 30000
+    socket-timeout: 30000
+    retry-attempts: 3
+    retry-delay: 5
+    rate-limit: 5
