@@ -36,8 +36,8 @@ public class OpenCartService {
             restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
             log.info("Category updated successfully: {}", category.getCategoryId());
         } catch (Exception e) {
-            log.error("Error updating category in OpenCart: {}", category.getCategoryId(), e);
-            throw new RuntimeException("Failed to update category in OpenCart", e);
+            log.error("Ошибка при обновлении категории в OpenCart: {}", category.getCategoryId(), e);
+            throw new RuntimeException("Не удалось обновить категорию в OpenCart: " + category.getCategoryId(), e);
         }
     }
 
@@ -54,8 +54,8 @@ public class OpenCartService {
             restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
             log.info("Product updated successfully: {}", product.getProductId());
         } catch (Exception e) {
-            log.error("Error updating product in OpenCart: {}", product.getProductId(), e);
-            throw new RuntimeException("Failed to update product in OpenCart", e);
+            log.error("Ошибка при обновлении продукта в OpenCart: {}", product.getProductId(), e);
+            throw new RuntimeException("Не удалось обновить продукт в OpenCart: " + product.getProductId(), e);
         }
     }
 

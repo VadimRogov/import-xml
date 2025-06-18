@@ -18,10 +18,10 @@ public class RestTemplateConfig {
     @Value("${http.client.socket-timeout}")
     private int socketTimeout;
 
-    @Value("${project111.api.username}")
+    @Value("${import-xml.api.username}")
     private String username;
 
-    @Value("${project111.api.password}")
+    @Value("${import-xml.api.password}")
     private String password;
 
     @Bean

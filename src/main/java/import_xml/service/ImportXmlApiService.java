@@ -31,19 +31,19 @@ public class ImportXmlApiService {
     private final ImportXmlProperties properties;
     private final XmlProcessingService xmlProcessingService;
 
-    @Value("${project111.api.base-url}")
+    @Value("${import-xml.api.base-url}")
     private String baseUrl;
 
-    @Value("${project111.api.username}")
+    @Value("${import-xml.api.username}")
     private String username;
 
-    @Value("${project111.api.password}")
+    @Value("${import-xml.api.password}")
     private String password;
 
-    @Value("${project111.import.directory}")
+    @Value("${import-xml.import.directory}")
     private String importDirectory;
 
-    private static final long RATE_LIMIT_DELAY = 200; // 200ms между запросами
+    private long rateLimitDelay;
 
     @PostConstruct
     public void init() {
@@ -52,20 +52,24 @@ public class ImportXmlApiService {
             if (!Files.exists(tempDir)) {
                 Files.createDirectories(tempDir);
             }
+            this.rateLimitDelay = properties.getImportConfig().getRateLimit().getDelay();
         } catch (Exception e) {
-            log.error("Error during initialization", e);
-            throw new RuntimeException("Failed to initialize service", e);
+            log.error("Ошибка инициализации сервиса импорта", e);
+            throw new RuntimeException("Не удалось инициализировать сервис импорта", e);
         }
     }
 
-    @Scheduled(cron = "${project111.sync.cron}")
+    @Scheduled(cron = "${import-xml.sync.cron}")
     public void syncData() {
-        log.info("Starting data sync from Project111 API at {}", LocalDateTime.now());
+        log.info("Starting data sync from import-xml API at {}", LocalDateTime.now());
         try {
             // Скачиваем и обрабатываем файлы
             downloadAndProcessFile(properties.getImportConfig().getFiles().getProduct(), "products");
             downloadAndProcessFile(properties.getImportConfig().getFiles().getStock(), "stock");
-
+            downloadAndProcessFile(properties.getImportConfig().getFiles().getTree(), "tree");
+            downloadAndProcessFile(properties.getImportConfig().getFiles().getFilters(), "filters");
+            downloadAndProcessFile(properties.getImportConfig().getFiles().getComplects(), "complects");
+            downloadAndProcessFile(properties.getImportConfig().getFiles().getCatalogue(), "catalogue");
             log.info("Data sync completed successfully at {}", LocalDateTime.now());
         } catch (Exception e) {
             log.error("Error during data sync", e);
@@ -87,11 +91,12 @@ public class ImportXmlApiService {
             }
 
             // Скачиваем и обрабатываем все типы файлов
-            downloadAndProcessFile("project111_product.xml", "products");
-            downloadAndProcessFile("project111_stock.xml", "stock");
-            downloadAndProcessFile("project111_tree.xml", "tree");
-            downloadAndProcessFile("project111_filters.xml", "filters");
-            downloadAndProcessFile("project111_complects.xml", "complects");
+            downloadAndProcessFile("product.xml", "products");
+            downloadAndProcessFile("stock.xml", "stock");
+            downloadAndProcessFile("tree.xml", "tree");
+            downloadAndProcessFile("filters.xml", "filters");
+            downloadAndProcessFile("complects.xml", "complects");
+            downloadAndProcessFile("catalogue.xml", "catalogue");
 
             log.info("Full data import completed successfully at {}", LocalDateTime.now());
         } catch (Exception e) {
@@ -129,8 +134,8 @@ public class ImportXmlApiService {
             Files.deleteIfExists(localFile.toPath());
             log.info("{} file processed and deleted", fileName);
 
-            // Задержка между запросами
-            TimeUnit.MILLISECONDS.sleep(RATE_LIMIT_DELAY);
+            // Задержка между запросами из конфига
+            TimeUnit.MILLISECONDS.sleep(rateLimitDelay);
         } catch (Exception e) {
             log.error("Error processing {} file", fileName, e);
             throw new RuntimeException("Failed to process " + fileName, e);
@@ -153,6 +158,9 @@ public class ImportXmlApiService {
                 break;
             case "complects":
                 xmlProcessingService.processComplectsXml(file);
+                break;
+            case "catalogue":
+                xmlProcessingService.processCatalogueXml(file);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown file type: " + fileType);

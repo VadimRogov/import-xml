@@ -47,4 +47,14 @@ public class Filter {
             }
     )
     private Set<Product> products;
+
+    @Column(name = "filter_type_name", length = 255)
+    private String filterTypeName;
+
+    @OneToMany
+    @JoinTable(name = "filter_children", joinColumns = @JoinColumn(name = "parent_id"), inverseJoinColumns = @JoinColumn(name = "child_id"))
+    private Set<Filter> filters;
+
+    @Column(name = "filter_name", length = 255)
+    private String filterName;
 }

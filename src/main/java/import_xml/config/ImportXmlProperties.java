@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "project111")
+@ConfigurationProperties(prefix = "import-xml")
 public class ImportXmlProperties {
     private Api api = new Api();
     private XmlDownload xmlDownload = new XmlDownload();
@@ -40,6 +40,7 @@ public class ImportXmlProperties {
         private String directory;
         private RateLimit rateLimit = new RateLimit();
         private Files files = new Files();
+        private String catalogue;
 
         @Data
         public static class RateLimit {
@@ -53,6 +54,10 @@ public class ImportXmlProperties {
             private String tree;
             private String filters;
             private String complects;
+            private String catalogue;
         }
+
+        public String getCatalogue() { return catalogue; }
+        public void setCatalogue(String catalogue) { this.catalogue = catalogue; }
     }
 }

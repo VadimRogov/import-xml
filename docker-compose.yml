@@ -14,8 +14,4 @@ services:
     volumes:
       - ./logs:/app/logs
       - ./import:/root/import-xml/import
-    network_mode: "host"  # Используем сеть хоста для доступа к локальной MySQL
     restart: unless-stopped
-
-volumes:
-  mysql_data:

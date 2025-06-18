@@ -54,6 +54,7 @@ import-xml:
       tree: tree.xml
       filters: filters.xml
       complects: complects.xml
+      catalogue: catalogue.xml
   xml-download:
     temp-dir: ./temp/xml
     rate-limit: 5
@@ -76,7 +77,6 @@ opencart:
 logging:
   level:
     root: INFO
-    com.project111: DEBUG
     org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE

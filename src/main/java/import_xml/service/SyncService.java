@@ -32,19 +32,19 @@ public class SyncService {
     @Scheduled(cron = "${opencart.sync.cron}")
     @Transactional
     public void syncData() {
-        log.info("Starting data synchronization at {}", LocalDateTime.now());
+        log.info("Начинаем синхронизацию данных в {}", LocalDateTime.now());
         try {
             syncCategories();
             syncProducts();
-            log.info("Data synchronization completed successfully at {}", LocalDateTime.now());
+            log.info("Данные синхронизированы успешно в {}", LocalDateTime.now());
         } catch (Exception e) {
-            log.error("Error during data synchronization", e);
-            throw new RuntimeException("Failed to synchronize data", e);
+            log.error("Ошибка при синхронизации данных", e);
+            throw new RuntimeException("Не удалось синхронизировать данные", e);
         }
     }
 
     private void syncCategories() {
-        log.info("Starting categories synchronization");
+        log.info("Начинаем синхронизацию категорий");
         int page = 0;
         int size = openCartService.getConfig().getSync().getBatchSize();
 
@@ -59,7 +59,7 @@ public class SyncService {
                     OpenCartCategory openCartCategory = convertToOpenCartCategory(category);
                     openCartService.updateCategory(openCartCategory);
                 } catch (Exception e) {
-                    log.error("Error updating category: {}", category.getCategoryId(), e);
+                    log.error("Ошибка обновления категории: {}", category.getCategoryId(), e);
                 }
             }
 
@@ -71,7 +71,7 @@ public class SyncService {
     }
 
     private void syncProducts() {
-        log.info("Starting products synchronization");
+        log.info("Начинаем синхронизацию продуктов");
         int page = 0;
         int size = openCartService.getConfig().getSync().getBatchSize();
 
@@ -86,7 +86,7 @@ public class SyncService {
                     OpenCartProduct openCartProduct = convertToOpenCartProduct(product);
                     openCartService.updateProduct(openCartProduct);
                 } catch (Exception e) {
-                    log.error("Error updating product: {}", product.getProductId(), e);
+                    log.error("Ошибка обновления продукта: {}", product.getProductId(), e);
                 }
             }
 

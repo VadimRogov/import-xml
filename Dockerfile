@@ -18,6 +18,9 @@ COPY src ./src
 # Собираем приложение
 RUN ./mvnw package -DskipTests
 
+# Копируем собранный jar-файл
+COPY target/import-xml-1.0.0.jar target/
+
 # Создаем директорию для импорта
 RUN mkdir -p /root/import-xml/import
 

@@ -50,5 +50,8 @@ docker-compose --version
 # Добавляем текущего пользователя в группу docker
 usermod -aG docker $SUDO_USER
 
+# Устанавливаем git
+apt-get install -y git
+
 echo "Installation completed!"
 echo "Please log out and log back in for the docker group changes to take effect."

@@ -49,6 +49,14 @@ public class Category {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
+    @Column(name = "page_id", unique = true, length = 50)
+    private String pageId;
+
+    @ElementCollection
+    @CollectionTable(name = "category_products_on_page", joinColumns = @JoinColumn(name = "category_id"))
+    @Column(name = "product_id")
+    private Set<String> productsOnPage;
+
     @ManyToMany
     @JoinTable(
             name = "category_products",

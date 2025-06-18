@@ -57,4 +57,37 @@ public class Complect {
     @MapKeyJoinColumn(name = "product_id")
     @Column(name = "quantity")
     private Map<Product, Integer> productQuantities;
+
+    @Column(name = "tocomplect")
+    private Boolean tocomplect;
+
+    @Column(name = "complectprice", precision = 10, scale = 2)
+    private java.math.BigDecimal complectprice;
+
+    @ElementCollection
+    @CollectionTable(name = "complect_parts", joinColumns = @JoinColumn(name = "complect_id"))
+    private Set<ComplectPart> parts;
+
+    @Embeddable
+    @Data
+    public static class ComplectPart {
+        @Column(name = "part_id")
+        private String partId;
+        @Column(name = "published")
+        private Boolean published;
+        @Column(name = "product_id")
+        private String productId;
+        @Column(name = "code")
+        private String code;
+        @Column(name = "name")
+        private String name;
+        @Column(name = "small_image")
+        private String smallImage;
+        @Column(name = "super_big_image")
+        private String superBigImage;
+        @Column(name = "print_name")
+        private String printName;
+        @Column(name = "print_description")
+        private String printDescription;
+    }
 }
