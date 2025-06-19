@@ -2,9 +2,9 @@ spring:
   application:
     name: import-xml
   datasource:
-    url: jdbc:mysql://localhost:3306/kirilwgb_oc1?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://kirilwgb.beget.tech:3306/kirilwgb_bd?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: kirilwgb_bd
+    password: Pk123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -40,10 +40,10 @@ server:
 import-xml:
   api:
     base-url: ${IMPORT-XML_API_URL:https://api2.gifts.ru}
-    username: ${IMPORT-XML_API_USERNAME}
-    password: ${IMPORT-XML_API_PASSWORD}
-    site-url: http://kirilwgb.beget.tech
-    ip: ${IMPORT-XML_IP}
+    username: 19405_xmlexport
+    password: 15101977
+    site-url: https://placlobusaf.beget.app
+    ip: 82.202.130.166
   import:
     directory: ${user.home}/import-xml/import
     rate-limit:
@@ -64,10 +64,10 @@ import-xml:
     cron: "0 0 */4 * * *"
 
 opencart:
-  base-url: ${OPENCART_API_URL:http://kirilwgb.beget.tech}
-  api-key: ${OPENCART_API_KEY:your-api-key}
-  username: ${OPENCART_USERNAME:admin}
-  password: ${OPENCART_PASSWORD:admin}
+  base-url: https://placlobusaf.beget.app
+  api-key: 3uCysrJ7SEwgfL8QLQkfULYkuv1ZTCzNDH2yLOXcUN36H08UQffB4vdJ00jkcGSIbPZBJFkjY4VuwULP734JqswAVgiMSXXRfAENvVBUqImNiHSYua0YUkAL8pmqApidqkrnljKFtNRm3whbJ4imm4D6nnnsmMUnaKFyJIQrVlgcSyxlNL4IDTBh44uss7DrXpK46kRZHyqqZdKY1CU7S7hJyXU8lQBqJcsbnPxGswl66OtMCQjq4LWEfQmVUoQK
+  username: admin
+  password: &&S!B87d
   sync:
     batch-size: 100
     retry-attempts: 3
