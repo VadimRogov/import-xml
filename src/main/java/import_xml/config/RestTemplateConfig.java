@@ -1,6 +1,5 @@
 package import_xml.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -8,24 +7,24 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import java.util.Base64;
 import java.util.Collections;
+import import_xml.config.ImportXmlProperties;
 
 @Configuration
 public class RestTemplateConfig {
 
-    @Value("${http.client.connect-timeout}")
-    private int connectTimeout;
+    private final ImportXmlProperties properties;
 
-    @Value("${http.client.socket-timeout}")
-    private int socketTimeout;
-
-    @Value("${import-xml.api.username}")
-    private String username;
-
-    @Value("${import-xml.api.password}")
-    private String password;
+    public RestTemplateConfig(ImportXmlProperties properties) {
+        this.properties = properties;
+    }
 
     @Bean
     public RestTemplate restTemplate() {
+        int connectTimeout = properties.getHttp().getClient().getConnectTimeout();
+        int socketTimeout = properties.getHttp().getClient().getSocketTimeout();
+        String username = properties.getApi().getUsername();
+        String password = properties.getApi().getPassword();
+
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(connectTimeout);
         factory.setReadTimeout(socketTimeout);

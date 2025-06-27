@@ -6,11 +6,11 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/kirilwgb_oc1?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
-      - IMPORT_XML_API_USERNAME=${IMPORT_XML_API_USERNAME}
-      - IMPORT_XML_API_PASSWORD=${IMPORT_XML_API_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/kirilwgb_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - DB_USERNAME=kirilwgb_bd
+      - DB_PASSWORD=Pk123456
+      - IMPORT_XML_API_USERNAME=19405_xmlexport
+      - IMPORT_XML_API_PASSWORD=15101977
     volumes:
       - ./logs:/app/logs
       - ./import:/root/import-xml/import

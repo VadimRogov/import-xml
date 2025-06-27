@@ -18,13 +18,13 @@ public class Filter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "filter_id", unique = true, length = 50)
+    @Column(name = "filter_id", unique = true)
     private String filterId;
 
-    @Column(name = "filter_type_id", length = 50)
+    @Column(name = "filter_type_id")
     private String filterTypeId;
 
-    @Column(name = "name", length = 255, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "sort_order")
@@ -48,13 +48,16 @@ public class Filter {
     )
     private Set<Product> products;
 
-    @Column(name = "filter_type_name", length = 255)
+    @Column(name = "filter_type_name")
     private String filterTypeName;
 
     @OneToMany
     @JoinTable(name = "filter_children", joinColumns = @JoinColumn(name = "parent_id"), inverseJoinColumns = @JoinColumn(name = "child_id"))
     private Set<Filter> filters;
 
-    @Column(name = "filter_name", length = 255)
+    @Column(name = "filter_name")
     private String filterName;
+
+    @Column(name = "parent_filter_type_id")
+    private String parentFilterTypeId;
 }

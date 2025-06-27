@@ -59,4 +59,17 @@ public class ProductController {
             return ResponseEntity.status(500).body("Error processing Product XML: " + e.getMessage());
         }
     }
+
+    @PostMapping("/import-10")
+    public ResponseEntity<String> importFirst10Products(@RequestParam("file") MultipartFile file) {
+        try {
+            java.io.File tempFile = java.io.File.createTempFile("product10", ".xml");
+            file.transferTo(tempFile);
+            xmlProcessingService.processFirstNProductsXml(tempFile, 10);
+            tempFile.delete();
+            return ResponseEntity.ok("First 10 products imported successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error importing first 10 products: " + e.getMessage());
+        }
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
 
 @Service
 @Slf4j
@@ -24,10 +25,11 @@ public class OpenCartService {
     }
 
     public void updateCategory(OpenCartCategory category) {
-        String url = UriComponentsBuilder.fromHttpUrl(config.getBaseUrl())
+        String url = UriComponentsBuilder.newInstance()
+                .uri(URI.create(config.getBaseUrl()))
                 .path("/api/categories")
                 .build()
-                .toUriString();
+                .toString();
 
         HttpHeaders headers = createHeaders();
         HttpEntity<OpenCartCategory> request = new HttpEntity<>(category, headers);
@@ -42,10 +44,11 @@ public class OpenCartService {
     }
 
     public void updateProduct(OpenCartProduct product) {
-        String url = UriComponentsBuilder.fromHttpUrl(config.getBaseUrl())
+        String url = UriComponentsBuilder.newInstance()
+                .uri(URI.create(config.getBaseUrl()))
                 .path("/api/products")
                 .build()
-                .toUriString();
+                .toString();
 
         HttpHeaders headers = createHeaders();
         HttpEntity<OpenCartProduct> request = new HttpEntity<>(product, headers);

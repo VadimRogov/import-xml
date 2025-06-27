@@ -1,25 +1,15 @@
 # Используем официальный образ Java 17
-FROM eclipse-temurin:17-jdk-alpine
+FROM docker.io/library/eclipse-temurin:17-jdk-alpine
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем pom.xml и mvnw
-COPY pom.xml .
-COPY mvnw .
-COPY .mvn .mvn
+# Копируем файлы проекта
+COPY . .
 
-# Устанавливаем зависимости
+# Скачиваем зависимости и собираем jar внутри контейнера
 RUN ./mvnw dependency:go-offline
-
-# Копируем исходный код
-COPY src ./src
-
-# Собираем приложение
 RUN ./mvnw package -DskipTests
-
-# Копируем собранный jar-файл
-COPY target/import-xml-1.0.0.jar target/
 
 # Создаем директорию для импорта
 RUN mkdir -p /root/import-xml/import
@@ -28,4 +18,4 @@ RUN mkdir -p /root/import-xml/import
 EXPOSE 8080
 
 # Запускаем приложение
-ENTRYPOINT ["java", "-jar", "target/import-xml-1.0.0.jar"]
+CMD ["java", "-jar", "target/import-xml-0.0.1-SNAPSHOT.jar"]

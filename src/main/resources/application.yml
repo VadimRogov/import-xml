@@ -2,10 +2,14 @@ spring:
   application:
     name: import-xml
   datasource:
-    url: jdbc:mysql://kirilwgb.beget.tech:3306/kirilwgb_bd?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: kirilwgb_bd
-    password: Pk123456
+    url: jdbc:mysql://82.202.130.166:3306/myapp_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: myapp_user
+    password: myapp_password
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 120000   # 2 минут (в миллисекундах)
+      idle-timeout: 60000    # 1 минута (в миллисекундах)
+      validation-timeout: 5000
   jpa:
     hibernate:
       ddl-auto: update
@@ -33,7 +37,7 @@ spring:
     default-encoding: UTF-8
 
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /api
 
@@ -44,8 +48,8 @@ import-xml:
     password: 15101977
     site-url: https://placlobusaf.beget.app
     ip: 82.202.130.166
-  import:
-    directory: ${user.home}/import-xml/import
+  import-section:
+    directory: /opt/import-xml/import
     rate-limit:
       delay: 1000
     files:
@@ -67,7 +71,7 @@ opencart:
   base-url: https://placlobusaf.beget.app
   api-key: 3uCysrJ7SEwgfL8QLQkfULYkuv1ZTCzNDH2yLOXcUN36H08UQffB4vdJ00jkcGSIbPZBJFkjY4VuwULP734JqswAVgiMSXXRfAENvVBUqImNiHSYua0YUkAL8pmqApidqkrnljKFtNRm3whbJ4imm4D6nnnsmMUnaKFyJIQrVlgcSyxlNL4IDTBh44uss7DrXpK46kRZHyqqZdKY1CU7S7hJyXU8lQBqJcsbnPxGswl66OtMCQjq4LWEfQmVUoQK
   username: admin
-  password: &&S!B87d
+  password: "&&S!B87d"
   sync:
     batch-size: 100
     retry-attempts: 3
@@ -77,9 +81,15 @@ opencart:
 logging:
   level:
     root: INFO
-    org.springframework.web: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
+    org.springframework.http.client: DEBUG
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    import_xml: DEBUG
   file:
     name: logs/application.log
   pattern:
@@ -106,3 +116,5 @@ http:
     retry-attempts: 3
     retry-delay: 5
     rate-limit: 5
+    connect-timeout: 5000
+    read-timeout: 10000

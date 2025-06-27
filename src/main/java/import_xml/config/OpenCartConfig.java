@@ -2,10 +2,10 @@ package import_xml.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Data
-@Configuration
+@Primary
 @ConfigurationProperties(prefix = "opencart")
 public class OpenCartConfig {
     private String baseUrl;

@@ -19,19 +19,19 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "category_id", unique = true, length = 50)
+    @Column(name = "category_id", unique = true)
     private String categoryId;
 
-    @Column(name = "name", length = 255, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "parent_id", length = 50)
+    @Column(name = "parent_id")
     private String parentId;
 
-    @Column(name = "uri", length = 255)
+    @Column(name = "uri")
     private String uri;
 
     @Column(name = "level")
@@ -40,7 +40,7 @@ public class Category {
     @Column(name = "sort_order")
     private Integer sortOrder;
 
-    @Column(name = "image", length = 500)
+    @Column(name = "image")
     private String image;
 
     @Column(name = "last_updated")
@@ -49,7 +49,7 @@ public class Category {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
-    @Column(name = "page_id", unique = true, length = 50)
+    @Column(name = "page_id", unique = true)
     private String pageId;
 
     @ElementCollection

@@ -9,9 +9,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "import-xml")
 public class ImportXmlProperties {
     private Api api = new Api();
+    private ImportSection importSection = new ImportSection();
     private XmlDownload xmlDownload = new XmlDownload();
     private Sync sync = new Sync();
-    private Import importConfig = new Import();
+    private Http http = new Http();
 
     @Data
     public static class Api {
@@ -20,6 +21,29 @@ public class ImportXmlProperties {
         private String password;
         private String siteUrl;
         private String ip;
+    }
+
+    @Data
+    public static class ImportSection {
+        private String directory;
+        private RateLimit rateLimit = new RateLimit();
+        private ImportFiles files = new ImportFiles();
+        private String catalogue;
+
+        @Data
+        public static class RateLimit {
+            private int delay = 1000;
+        }
+
+        @Data
+        public static class ImportFiles {
+            private String product;
+            private String stock;
+            private String tree;
+            private String filters;
+            private String complects;
+            private String catalogue;
+        }
     }
 
     @Data
@@ -36,28 +60,13 @@ public class ImportXmlProperties {
     }
 
     @Data
-    public static class Import {
-        private String directory;
-        private RateLimit rateLimit = new RateLimit();
-        private Files files = new Files();
-        private String catalogue;
+    public static class Http {
+        private Client client = new Client();
 
         @Data
-        public static class RateLimit {
-            private int delay = 1000;
+        public static class Client {
+            private int connectTimeout = 30000;
+            private int socketTimeout = 30000;
         }
-
-        @Data
-        public static class Files {
-            private String product;
-            private String stock;
-            private String tree;
-            private String filters;
-            private String complects;
-            private String catalogue;
-        }
-
-        public String getCatalogue() { return catalogue; }
-        public void setCatalogue(String catalogue) { this.catalogue = catalogue; }
     }
 }

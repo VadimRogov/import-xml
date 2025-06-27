@@ -18,10 +18,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_id", unique = true, length = 50)
+    @Column(name = "product_id", unique = true)
     private String productId;
 
-    @Column(name = "name", length = 255, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -33,10 +33,10 @@ public class Product {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "brand", length = 100)
+    @Column(name = "brand")
     private String brand;
 
-    @Column(name = "article", length = 50)
+    @Column(name = "article")
     private String article;
 
     @Column(name = "last_updated")
@@ -45,31 +45,31 @@ public class Product {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
-    @Column(name = "image", length = 500)
+    @Column(name = "image")
     private String image;
 
     @ManyToMany(mappedBy = "products")
     private Set<Category> categories;
 
-    @Column(name = "group_id", length = 50)
+    @Column(name = "group_id")
     private String group;
 
-    @Column(name = "code", length = 100)
+    @Column(name = "code")
     private String code;
 
-    @Column(name = "product_size", length = 100)
+    @Column(name = "product_size")
     private String productSize;
 
-    @Column(name = "matherial", length = 255)
+    @Column(name = "matherial", columnDefinition = "TEXT")
     private String matherial;
 
-    @Column(name = "alert", columnDefinition = "TEXT")
+    @Column(name = "alert")
     private String alert;
 
-    @Column(name = "small_image", length = 500)
+    @Column(name = "small_image")
     private String smallImage;
 
-    @Column(name = "super_big_image", length = 500)
+    @Column(name = "super_big_image")
     private String superBigImage;
 
     @Column(name = "content", columnDefinition = "TEXT")
@@ -78,10 +78,10 @@ public class Product {
     @Column(name = "status_id")
     private Integer statusId;
 
-    @Column(name = "status_name", length = 100)
+    @Column(name = "status_name")
     private String statusName;
 
-    @Column(name = "barcode", length = 100)
+    @Column(name = "barcode")
     private String barcode;
 
     @Column(name = "weight")
@@ -93,13 +93,13 @@ public class Product {
     @Column(name = "ondemand")
     private Boolean ondemand;
 
-    @Column(name = "moq", length = 100)
+    @Column(name = "moq")
     private String moq;
 
-    @Column(name = "days", length = 100)
+    @Column(name = "days")
     private String days;
 
-    @Column(name = "demandtype", length = 100)
+    @Column(name = "demandtype")
     private String demandtype;
 
     @Column(name = "multiplicity")
@@ -116,12 +116,19 @@ public class Product {
     @Embeddable
     @Data
     public static class Pack {
+        @Column(name = "pack_amount")
         private Integer amount;
+        @Column(name = "pack_weight")
         private Integer weight;
+        @Column(name = "pack_volume")
         private Integer volume;
+        @Column(name = "pack_sizex")
         private Integer sizex;
+        @Column(name = "pack_sizey")
         private Integer sizey;
+        @Column(name = "pack_sizez")
         private Integer sizez;
+        @Column(name = "pack_minpackamount")
         private Integer minpackamount;
     }
 
@@ -131,7 +138,9 @@ public class Product {
     @Embeddable
     @Data
     public static class Print {
+        @Column(name = "print_name")
         private String name;
+        @Column(name = "print_description")
         private String description;
     }
 
@@ -143,18 +152,35 @@ public class Product {
     @Column(name = "alert")
     private Set<String> alerts;
 
+    /**
+     * @deprecated Используйте subproductEntities для связи с субтоварами
+     */
+    @Deprecated
     @ElementCollection
     @CollectionTable(name = "product_subproducts", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "subproduct_id")
     private Set<String> subproducts;
 
+    @ManyToMany
+    @JoinTable(name = "product_subproducts_entities",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "subproduct_id")
+    )
+    private Set<Product> subproductEntities;
+
     @Embeddable
     @Data
     public static class ProductAttachment {
+        @Column(name = "attachment_meaning")
         private String meaning;
+        @Column(name = "attachment_file")
         private String file;
+        @Column(name = "attachment_image")
         private String image;
+        @Column(name = "attachment_name")
         private String name;
+        @Column(name = "attachment_description")
+        private String description;
     }
 
     @ElementCollection
@@ -164,10 +190,15 @@ public class Product {
     @Embeddable
     @Data
     public static class Price {
+        @Column(name = "price_value")
         private java.math.BigDecimal value;
+        @Column(name = "price_type")
         private String type;
+        @Column(name = "price_currency")
         private String currency;
+        @Column(name = "price_date_start")
         private String dateStart;
+        @Column(name = "price_date_end")
         private String dateEnd;
     }
 
@@ -178,8 +209,11 @@ public class Product {
     @Embeddable
     @Data
     public static class Currency {
+        @Column(name = "currency_code")
         private String code;
+        @Column(name = "currency_rate")
         private java.math.BigDecimal rate;
+        @Column(name = "currency_date")
         private String date;
     }
 

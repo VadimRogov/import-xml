@@ -34,6 +34,9 @@ public class SyncService {
     public void syncData() {
         log.info("Начинаем синхронизацию данных в {}", LocalDateTime.now());
         try {
+            // 1. Загрузка и обработка данных из внешнего API
+            importXmlApiService.syncData();
+            // 2. Синхронизация с OpenCart
             syncCategories();
             syncProducts();
             log.info("Данные синхронизированы успешно в {}", LocalDateTime.now());

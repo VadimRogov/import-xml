@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByIsActive(boolean isActive, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.categoryId = :categoryId AND p.isActive = :isActive")
+    @Query("SELECT p FROM Product p JOIN p.categories c WHERE c.categoryId = :categoryId AND p.isActive = :isActive")
     Page<Product> findByCategoryIdAndIsActive(
             @Param("categoryId") String categoryId,
             @Param("isActive") boolean isActive,

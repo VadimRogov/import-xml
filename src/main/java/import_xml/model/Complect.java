@@ -18,13 +18,13 @@ public class Complect {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "complect_id", unique = true, length = 50)
+    @Column(name = "complect_id", unique = true)
     private String complectId;
 
-    @Column(name = "name", length = 255, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "last_updated")
@@ -77,6 +77,9 @@ public class Complect {
         private Boolean published;
         @Column(name = "product_id")
         private String productId;
+        @ManyToOne
+        @JoinColumn(name = "product_ref_id", referencedColumnName = "product_id")
+        private Product product;
         @Column(name = "code")
         private String code;
         @Column(name = "name")
